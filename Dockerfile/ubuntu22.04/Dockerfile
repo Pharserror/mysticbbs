@@ -11,6 +11,7 @@ RUN dpkg --add-architecture i386 && apt update
 RUN apt install -y \
     build-essential \
     cron \
+    p7zip-full \
     unzip \
     unrar \
     arj \
