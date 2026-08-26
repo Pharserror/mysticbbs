@@ -125,6 +125,7 @@ WORKDIR /mystic
 # Copy over needed files into image
 COPY scripts /mystic/
 COPY bash/tailit.sh /mystic/tailit.sh
+COPY bash/grep_log_blacklist.txt /mystic/grep_log_blacklist.txt
 
 # Default command, can be overridden
 CMD ["/mystic/boot.sh", "mystic"]
