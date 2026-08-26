@@ -122,8 +122,11 @@ EXPOSE 23/tcp 22/tcp 24554/tcp 8081/tcp
 
 WORKDIR /mystic
 
-# Default command, can be overridden
+# Copy over needed files into image
 COPY scripts /mystic/
+COPY bash/tailit.sh /mystic/tailit.sh
+
+# Default command, can be overridden
 CMD ["/mystic/boot.sh", "mystic"]
 
 # For debugging:
