@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cron \
     p7zip-full \
+    unrar-free \
     unzip \
     zip \
     mc \
@@ -103,16 +104,18 @@ RUN mkdir -p /etc/logrotate.d && \
 WORKDIR /root/cl
 
 # CryptLib 3.4.5
-RUN wget http://www.mysticbbs.com/downloads/cl345.zip
+RUN wget https://mysticbbs.com/downloads/mys112a48_l64.rar
 
 # Debian 12 ships GCC 12. The original Dockerfile explicitly installed
 # GCC 9 because it was being built on Ubuntu 24.04.
 #
 # GCC 12 is used here for Debian 12.
-RUN unzip -a cl345.zip && \
-    dos2unix tools/*.sh && \
-    make shared && \
-    mv libcl.so.3.4.5 /lib/libcl.so
+RUN unrar mys112a48_l64.rar && \
+    cd mys112a48_l64 && \
+    ./install auto /mystic overwrite
+#    dos2unix tools/*.sh && \
+#    make shared && \
+#    mv libcl.so.3.4.5 /lib/libcl.so
 
 # --------------------------------------------------------------------------
 # Mystic
@@ -123,9 +126,9 @@ EXPOSE 23/tcp 22/tcp 24554/tcp 8081/tcp
 WORKDIR /mystic
 
 # Copy over needed files into image
-COPY scripts /mystic/
-COPY bash/tailit.sh /mystic/tailit.sh
-COPY bash/grep_log_blacklist.txt /mystic/grep_log_blacklist.txt
+# COPY scripts /mystic/
+# COPY bash/tailit.sh /mystic/tailit.sh
+# COPY bash/grep_log_blacklist.txt /mystic/grep_log_blacklist.txt
 
 # Default command, can be overridden
 CMD ["/mystic/boot.sh", "mystic"]
