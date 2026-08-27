@@ -93,7 +93,7 @@ EXPOSE 23/tcp 22/tcp 24554/tcp 8081/tcp
 WORKDIR /mystic
 
 # Default command, can be overridden
-CMD ["./mis", "-d"]
+CMD ["mis", "-d"]
 
 # For debugging:
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
