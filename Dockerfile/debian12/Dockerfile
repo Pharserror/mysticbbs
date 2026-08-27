@@ -15,7 +15,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cron \
     p7zip-full \
-    unrar-free \
     unzip \
     zip \
     mc \
@@ -82,7 +81,7 @@ RUN python -m pip install --no-cache-dir \
 
 RUN wget https://mysticbbs.com/downloads/mys112a48_p64.zip
 
-RUN unrar mys112a48_p64.rar && \
+RUN unzip mys112a48_p64.zip && \
     ./install auto /mystic overwrite
 
 # --------------------------------------------------------------------------
