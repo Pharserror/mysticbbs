@@ -57,7 +57,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install pyenv
 ENV PYENV_ROOT="/opt/pyenv"
-ENV PATH="/opt/pyenv/shims:/opt/pyenv/bin:$PATH"
+ENV PATH="/opt/pyenv/shims:/opt/pyenv/bin:/mystic:$PATH"
 
 # Build Python with shared-library support
 ENV PYTHON_CONFIGURE_OPTS="--enable-shared"
@@ -79,6 +79,8 @@ RUN python -m pip install --no-cache-dir \
     pyfiglet \
     pillow
 
+WORKDIR /mystic
+
 RUN wget https://mysticbbs.com/downloads/mys112a48_p64.zip
 
 RUN unzip mys112a48_p64.zip && \
@@ -90,10 +92,9 @@ RUN unzip mys112a48_p64.zip && \
 
 EXPOSE 23/tcp 22/tcp 24554/tcp 8081/tcp
 
-WORKDIR /mystic
-
 # Default command, can be overridden
-CMD ["mis", "-d"]
+WORKDIR /mystic
+CMD ["./mis", "-d"]
 
 # For debugging:
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
