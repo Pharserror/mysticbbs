@@ -3,7 +3,7 @@ FROM debian:12
 # Prevent interactive prompts during build
 ENV DEBIAN_FRONTEND=noninteractive
 
-LABEL maintainer="opicron <opicron@gmail.com>"
+LABEL maintainer="pharserror <pharserror@protonmail.com>"
 
 WORKDIR /root
 
@@ -80,42 +80,10 @@ RUN python -m pip install --no-cache-dir \
     pyfiglet \
     pillow
 
-# --------------------------------------------------------------------------
-# Mystic logrotate configuration
-# --------------------------------------------------------------------------
+RUN wget https://mysticbbs.com/downloads/mys112a48_p64.zip
 
-RUN mkdir -p /etc/logrotate.d && \
-    printf '%s\n' \
-        '/mystic/logs/*.log {' \
-        ' maxsize 2M' \
-        ' daily' \
-        ' rotate 5' \
-        ' missingok' \
-        ' compress' \
-        ' notifempty' \
-        ' copytruncate' \
-        '}' \
-        > /etc/logrotate.d/mystic
-
-# --------------------------------------------------------------------------
-# CryptLib
-# --------------------------------------------------------------------------
-
-WORKDIR /root/cl
-
-# CryptLib 3.4.5
-RUN wget https://mysticbbs.com/downloads/mys112a48_l64.rar
-
-# Debian 12 ships GCC 12. The original Dockerfile explicitly installed
-# GCC 9 because it was being built on Ubuntu 24.04.
-#
-# GCC 12 is used here for Debian 12.
-RUN unrar mys112a48_l64.rar && \
-    cd mys112a48_l64 && \
+RUN unrar mys112a48_p64.rar && \
     ./install auto /mystic overwrite
-#    dos2unix tools/*.sh && \
-#    make shared && \
-#    mv libcl.so.3.4.5 /lib/libcl.so
 
 # --------------------------------------------------------------------------
 # Mystic
@@ -125,13 +93,8 @@ EXPOSE 23/tcp 22/tcp 24554/tcp 8081/tcp
 
 WORKDIR /mystic
 
-# Copy over needed files into image
-# COPY scripts /mystic/
-# COPY bash/tailit.sh /mystic/tailit.sh
-# COPY bash/grep_log_blacklist.txt /mystic/grep_log_blacklist.txt
-
 # Default command, can be overridden
-CMD ["/mystic/boot.sh", "mystic"]
+CMD ["./mis", "-d"]
 
 # For debugging:
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
