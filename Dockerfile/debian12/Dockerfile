@@ -93,7 +93,7 @@ RUN unzip mys112a48_p64.zip && \
 EXPOSE 23/tcp 22/tcp 24554/tcp 8081/tcp
 
 # Default command, can be overridden
-CMD ["./mis", "-d"]
+CMD ["./mis", "server", "-d"]
 
 # For debugging:
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
